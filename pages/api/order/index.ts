@@ -5,7 +5,7 @@ import { getProductById } from "controllers/algoliaController";
 import { createPreferenceInMP } from "controllers/orderController";
 export default authMiddleware(
   methods({
-    post: async (req: NextApiRequest, res: NextApiResponse, id: string) => {
+    async post(req: NextApiRequest, res: NextApiResponse, id: string) {
       const { productId } = req.query;
       try {
         const { object } = (await getProductById(productId)) as any;
