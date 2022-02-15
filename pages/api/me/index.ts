@@ -11,8 +11,14 @@ export default authMiddleware(
       id: string,
       token: string
     ) => {
-      const userData = await getUserData(id);
-      res.send({ userData });
+      try {
+        const userData = await getUserData(id);
+        res.send({ userData });
+      } catch (error) {
+        res
+          .status(400)
+          .json({ error: error.message, message: "error en el GET /me" });
+      }
     },
     patch: async (
       req: NextApiRequest,
