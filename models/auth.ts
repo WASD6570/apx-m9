@@ -79,7 +79,7 @@ class Auth extends ModelCommonClass {
       const newAuth = new Auth(first.id);
       newAuth.setData({ ...(first.data() as data) });
       const data = newAuth.getData();
-      sendEmail({ email: data.email, code: data.code });
+      await sendEmail({ email: data.email, code: data.code });
       return data;
     }
     if (
@@ -99,7 +99,7 @@ class Auth extends ModelCommonClass {
       });
       const data = newAuth.getData();
       await newAuth.push();
-      sendEmail({ email: data.email, code: data.code });
+      await sendEmail({ email: data.email, code: data.code });
       return data;
     }
     if (result.docs.length === 0) {
@@ -120,7 +120,7 @@ class Auth extends ModelCommonClass {
       });
       const data = newAuth.getData();
       await newAuth.push();
-      sendEmail({ email: data.email, code: data.code });
+      await sendEmail({ email: data.email, code: data.code });
       return data;
     }
   }
