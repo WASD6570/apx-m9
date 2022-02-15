@@ -10,14 +10,8 @@ const handler = methods({
     id: string,
     token: string
   ) {
-    try {
-      const userData = await getUserData(id);
-      res.setHeader("content-type", "application/json").json({ userData });
-    } catch (error) {
-      res
-        .status(400)
-        .json({ error: error.message, message: "error en el GET /me" });
-    }
+    const userData = await getUserData(id);
+    res.send({ userData });
   },
   async patch(
     req: NextApiRequest,
@@ -28,7 +22,7 @@ const handler = methods({
     try {
       const { userData } = req.body;
       const updatedData = await updateUserData(id, userData);
-      res.setHeader("content-type", "application/json").json({ updatedData });
+      res.send({ updatedData });
     } catch (error) {
       console.error({
         error: error.message,
