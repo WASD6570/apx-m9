@@ -13,7 +13,7 @@ export default authMiddleware(
     ) => {
       try {
         const userData = await getUserData(id);
-        res.send(JSON.stringify({ userData }));
+        res.setHeader("content-type", "application/json").json({ userData });
       } catch (error) {
         res
           .status(400)
@@ -29,7 +29,7 @@ export default authMiddleware(
       try {
         const { userData } = req.body;
         const updatedData = await updateUserData(id, userData);
-        res.status(200).send(JSON.stringify({ updatedData }));
+        res.setHeader("content-type", "application/json").json({ updatedData });
       } catch (error) {
         console.error({
           error: error.message,
