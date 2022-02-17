@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getPayment } from "lib/mercagopago";
 import methods from "micro-method-router";
-import { getProductById } from "controllers/algoliaController";
+import { authMiddleware } from "utils/middlewares";
 import { validator } from "utils/yup";
 import * as yup from "yup";
 
@@ -9,19 +10,17 @@ const querySchema = yup.object().shape({
     id: yup.string().required(),
   }),
 });
+
 const handler = methods({
   get: async (req: NextApiRequest, res: NextApiResponse) => {
-    const { id } = req.query;
     try {
-      const product = await getProductById(id);
-      res.json({
-        product,
-      });
+      const { id } = req.query;
+      const { body } = await getPayment(id as string);
+      res.send({ orderData: body });
     } catch (error) {
-      res.status(404).json({ message: "product not found" });
-      console.error(error.message, "error en el endpoint");
+      console.error(error, "error en el endpoint /order/[id]");
     }
   },
 });
 
-export default validator(handler, querySchema);
+export default validator(authMiddleware(handler), querySchema);

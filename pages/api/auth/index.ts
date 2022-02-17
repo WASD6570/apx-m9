@@ -1,8 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { sendCodeToUserEmail } from "controllers/authController";
 import methods from "micro-method-router";
+import * as yup from "yup";
+import { validator } from "utils/yup";
 
-export default methods({
+const bodySchema = yup
+  .object()
+  .shape({
+    body: yup.object().shape({
+      email: yup.string().required(),
+    }),
+  })
+  .noUnknown(true, "this request only accepts email in body");
+
+const handler = methods({
   async post(req: NextApiRequest, res: NextApiResponse) {
     try {
       const { email } = req.body;
@@ -15,3 +26,5 @@ export default methods({
     }
   },
 });
+
+export default validator(handler, bodySchema);

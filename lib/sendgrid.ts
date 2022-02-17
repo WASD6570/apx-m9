@@ -21,4 +21,19 @@ async function sendEmail({
   return await sgMail.send(msg);
 }
 
-export { sendEmail };
+async function sendPaymentStatusEmail(
+  email: string,
+  status: string
+): Promise<[ClientResponse, {}]> {
+  sgMail.setApiKey(process.env.MAIL_API_KEY);
+  const msg = {
+    to: email,
+    from: "wasd12.ns@gmail.com",
+    subject: `Purchase payment status ${status}`,
+    text: `Hi, Your payment was ${status}, please go to the site to have more details`,
+    html: `<h2>Hi, Your payment was ${status}</h2><br><p>please go to the site to have more details</p>`,
+  };
+  return await sgMail.send(msg);
+}
+
+export { sendEmail, sendPaymentStatusEmail };

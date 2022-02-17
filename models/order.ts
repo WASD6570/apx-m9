@@ -48,13 +48,14 @@ class Order extends ModelCommonClass {
     const order = new Order(id);
     await order.pull();
     order.setData(update);
-    const data = order.getData();
-    console.log(data);
-
     await order.push();
   }
 
-  static async pushItemInToOrder(item): Promise<void> {}
+  static async getBuyer(id: string): Promise<string> {
+    const order = new Order(id);
+    await order.pull();
+    return order.getData().buyer;
+  }
 }
 
 export { Order };

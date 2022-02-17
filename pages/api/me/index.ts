@@ -2,6 +2,18 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { authMiddleware } from "utils/middlewares";
 import methods from "micro-method-router";
 import { getUserData, updateUserData } from "controllers/userController";
+import { validator } from "utils/yup";
+import * as yup from "yup";
+
+const bodySchema = yup
+  .object()
+  .shape({
+    body: yup.object().shape({
+      email: yup.string(),
+      code: yup.number(),
+    }),
+  })
+  .noUnknown(true, "this request only accepts email and auth code in body");
 
 const handler = methods({
   async get(
@@ -33,4 +45,4 @@ const handler = methods({
   },
 });
 
-export default authMiddleware(handler);
+export default validator(authMiddleware(handler), bodySchema);

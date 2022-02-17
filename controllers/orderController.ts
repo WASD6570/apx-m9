@@ -1,6 +1,9 @@
 import { Order } from "models/order";
 import { createPreference } from "lib/mercagopago";
 import type { orderData } from "models/order";
+import type { PaymentGetResponse } from "mercadopago/resources/payment";
+import { sendPaymentStatusEmail } from "lib/sendgrid";
+import { getUserData } from "controllers/userController";
 
 function preferenceObjectCreator(item) {
   try {
@@ -37,6 +40,15 @@ async function createPreferenceInMP(
   return { link: body.init_point };
 }
 
-async function addItemToCart(id: string, item) {}
+async function updateOrderInDb<OrderInfo extends PaymentGetResponse>(
+  orderInfo: OrderInfo
+): Promise<void> {
+  const userId = await Order.getBuyer(orderInfo.body.external_reference);
+  const { email } = await getUserData(userId);
+  await Order.updateOrder(orderInfo.body.external_reference, {
+    mercadopagoResponse: orderInfo.body,
+  } as orderData);
+  await sendPaymentStatusEmail(email, orderInfo.body.status);
+}
 
-export { createPreferenceInMP };
+export { createPreferenceInMP, updateOrderInDb };

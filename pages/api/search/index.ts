@@ -1,8 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import methods from "micro-method-router";
 import { searchProduct } from "controllers/algoliaController";
+import { validator } from "utils/yup";
+import * as yup from "yup";
 
-export default methods({
+const querySchema = yup.object().shape({
+  query: yup.object().shape({
+    search: yup.string().required(),
+  }),
+});
+
+const handler = methods({
   async get(req: NextApiRequest, res: NextApiResponse) {
     const { search, limit = "10", offset = "0" } = req.query;
 
@@ -29,3 +37,5 @@ export default methods({
     }
   },
 });
+
+export default validator(handler, querySchema);
