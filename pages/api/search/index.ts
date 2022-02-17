@@ -4,17 +4,21 @@ import { searchProduct } from "controllers/algoliaController";
 import { validator } from "utils/yup";
 import * as yup from "yup";
 
-const querySchema = yup.object().shape({
-  query: yup.object().shape({
-    search: yup.string().required(),
-  }),
-});
+const querySchema = yup
+  .object()
+  .shape({
+    query: yup.object().shape({
+      search: yup.string().required(),
+      limit: yup.string(),
+      offset: yup.string(),
+    }),
+  })
+  .noUnknown(true, "only search, limit and offset params are allowed");
 
 const handler = methods({
   async get(req: NextApiRequest, res: NextApiResponse) {
-    const { search, limit = "10", offset = "0" } = req.query;
-
     try {
+      const { search, limit = "10", offset = "0" } = req.query;
       const { hits, nbHits, realLimit, realOffset } = await searchProduct(
         search,
         limit,
