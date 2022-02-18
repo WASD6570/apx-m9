@@ -14,21 +14,20 @@ class ModelCommonClass {
 
   constructor() {}
 
-  async pull() {
+  async pull(): Promise<void> {
     const snap = await this.ref.get();
     this.data = snap.data();
   }
 
-  async push() {
-    const setResult = await this.ref.set({ ...this.data }, { merge: true });
-    return setResult;
+  async push(): Promise<void> {
+    await this.ref.set({ ...this.data }, { merge: true });
   }
   setData(data: {}): void {
     this.data = { ...this.data, ...data };
     return;
   }
 
-  getData() {
+  getData(): data {
     return this.data;
   }
 }
