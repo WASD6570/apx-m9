@@ -30,14 +30,14 @@ function preferenceObjectCreator(item) {
 async function createPreferenceInMP(
   id: string,
   item
-): Promise<{ link: string }> {
+): Promise<{ link: string; orderId: string }> {
   const realItem = preferenceObjectCreator(item);
   const order = await Order.createNewOrder(id, realItem);
   const { body } = await createPreference(order);
   Order.updateOrder(order.external_reference, {
     mercadopagoResponse: body,
   } as orderData);
-  return { link: body.init_point };
+  return { link: body.init_point, orderId: body.external_reference };
 }
 
 async function updateOrderInDb<OrderInfo extends PaymentGetResponse>(
