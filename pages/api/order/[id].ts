@@ -18,7 +18,7 @@ const handler = methods({
       const { id } = req.query;
       //const { body } = await getPayment(id as string);
       const data = await getOrderData(id as string);
-      res.send({ orderData: data.mercadopagoResponse.status });
+      res.send({ orderData: data });
     } catch (error) {
       console.error(error, "error en el endpoint /order/[id]");
     }
