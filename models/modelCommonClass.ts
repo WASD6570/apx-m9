@@ -27,7 +27,7 @@ class ModelCommonClass {
     return;
   }
 
-  getData(): data {
+  getData() {
     return this.data;
   }
 }
