@@ -51,4 +51,8 @@ async function updateOrderInDb<OrderInfo extends PaymentGetResponse>(
   await sendPaymentStatusEmail(email, orderInfo.body.status);
 }
 
-export { createPreferenceInMP, updateOrderInDb };
+async function getOrderData(orderId: string): Promise<orderData> {
+  return await Order.getOrderData(orderId);
+}
+
+export { createPreferenceInMP, updateOrderInDb, getOrderData };

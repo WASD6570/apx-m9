@@ -56,6 +56,12 @@ class Order extends ModelCommonClass {
     await order.pull();
     return order.getData().buyer;
   }
+
+  static async getOrderData(orderId: string): Promise<orderData> {
+    const order = new Order(orderId);
+    await order.pull();
+    return order.getData();
+  }
 }
 
 export { Order };
