@@ -36,7 +36,11 @@ class Order extends ModelCommonClass {
     const newOrder = await ref.get();
     const order = new Order(newOrder.id);
     order.data.items.push(items);
-    order.setData({ ...order.data, external_reference: newOrder.id });
+    order.setData({
+      ...order.data,
+      external_reference: newOrder.id,
+      mercadopagoResponse: { status: "pending" },
+    });
     await order.push();
     return order.getData();
   }
