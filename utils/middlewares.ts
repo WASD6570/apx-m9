@@ -22,7 +22,7 @@ import parseBearerToken from "parse-bearer-token";
 //   };
 // };
 function authMiddleware(callback) {
-  return function (req: NextApiRequest, res: NextApiResponse) {
+  return async function (req: NextApiRequest, res: NextApiResponse) {
     const token = parseBearerToken(req);
     if (!token) {
       res.status(401).send({
