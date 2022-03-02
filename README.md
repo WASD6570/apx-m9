@@ -64,7 +64,7 @@ POST /ipn/mercadopago
 * API doc en POSTMAN
 * [DOC](https://documenter.getpostman.com/view/17908890/UVkiTyi8)
 * [API URL](https://apx-m9.vercel.app/api)
-* 
+ 
 ## Tech Stack
 
 **Server:** Node, Next, Vercel, Firebae, Airtable, Algolia, MVC, Serverless, YUP, JWT,
