@@ -20,7 +20,11 @@ const handler = methods({
       const { email, code } = req.body;
       const cleanEmail = email.trim().toLowerCase();
       const token = await getToken({ email: cleanEmail, code });
-      res.status(200).send({ token });
+      if (token === "email or code not valid") {
+        res.status(403).send({ message: token });
+      } else {
+        res.status(200).send({ token });
+      }
     } catch (error) {
       console.error({ error: error.message }, "error en POST /auth/token");
     }

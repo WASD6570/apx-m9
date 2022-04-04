@@ -25,10 +25,7 @@ const handler = methods({
         offset
       );
       res.status(200).json({
-        results: hits.map((r) => {
-          //@ts-ignore
-          return { id: r.objectID, name: r.Name };
-        }),
+        results: hits,
         pagination: {
           offset: realOffset,
           limit: realLimit,

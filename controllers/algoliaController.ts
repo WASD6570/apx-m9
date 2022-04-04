@@ -33,4 +33,12 @@ async function searchProduct(
   return { hits, nbHits, realLimit, realOffset };
 }
 
-export { getProductById, searchProduct };
+async function getTopProducts() {
+  const { hits } = await productIndex.search("", {
+    hitsPerPage: 3,
+    numericFilters: ["Total units sold: 999999 TO 5 "],
+  });
+  return hits;
+}
+
+export { getProductById, searchProduct, getTopProducts };
