@@ -18,9 +18,9 @@ class Order extends ModelCommonClass {
   data: orderData = {
     items: [],
     back_urls: {
-      success: `${process.env.BASE_URL}/api/payments/success`,
-      pending: `${process.env.BASE_URL}/api/payments/pending`,
-      failure: `${process.env.BASE_URL}/api/payments/failure`,
+      success: `https://apx-m10.vercel.app/payment`,
+      pending: `https://apx-m10.vercel.app/payment`,
+      failure: `https://apx-m10.vercel.app/payment`,
     },
     external_reference: "",
     notification_url: `${process.env.BASE_URL}/api/ipn/mercadopago`,
